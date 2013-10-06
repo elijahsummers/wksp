@@ -1,0 +1,43 @@
+#!/bin/bash
+# wksp: Simple script to set up workspaces for my projects.
+
+user_write_only ()
+{
+	[ ! "$1" ] && return 1
+	[ ! -f "$1" ] && return 1 # regular file
+	[ ! -r "$1" ] && return 1 # read access
+	[ ! -O "$1" ] && return 1 # we are owner
+	[ "-" != $(stat -c %A "$1"  | sed 's/..\{3\}.\(.\).\+/\1/') ] && return 1 # group write
+	[ "-" != $(stat -c %A "$1"  | sed 's/..\{3\}.\{3\}.\(.\).\+/\1/') ] && return 1 # other write
+	return 0
+}
+
+# Check for wksp project config directory in env
+_WKSP_DIR="$HOME/.wksp.d"
+if [ -z "$WKSP_DIR" ]; then
+	WKSP_DIR="$_WKSP_DIR"
+fi
+
+if [ ! -d "$WKSP_DIR" ]; then
+	echo "Couldn't find a project config directory at: $WKSP_DIR"
+	exit 1
+fi
+
+if [ ! $1 ]; then
+	echo -e "Please provide a project name:\nwksp [PROJECT NAME]\n"
+	echo "Available projects:"
+	echo "$(ls -1 $WKSP_DIR/*.wksp | sed 's/.*\/\(.*\)\.wksp/\1/')"
+	exit 1
+fi
+
+WKSP_FILE="$WKSP_DIR/$1.wksp"
+
+if ! user_write_only $WKSP_FILE
+then
+	echo -e "Missing $WKSP_FILE or bad permissions.\n"
+	echo "Available projects:"
+	echo "$(ls -1 $WKSP_DIR/*.wksp | sed 's/.*\/\(.*\)\.wksp/\1/')"
+	exit 1
+fi
+
+source $WKSP_FILE
