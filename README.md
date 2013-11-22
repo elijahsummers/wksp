@@ -48,3 +48,7 @@ $ cat .wksp.d/example_project.vim
 " No tabs
 set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/elijahsummers/wksp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
