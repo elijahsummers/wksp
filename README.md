@@ -1,8 +1,6 @@
 wksp
 ====
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/elijahsummers/wksp/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 A simple bash script to help manage development workspaces.
 
 I switch between projects very often at work--sometimes multiple times a day. I made wksp to help me quickly set up
